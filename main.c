@@ -127,7 +127,7 @@ Expr *parse_expr2()
 Expr *parse_expr1()
 {
 	Expr *e = parse_expr2();
-	while (is_token('*') || is_token('/'))
+	while (is_token('*') || is_token('/') || is_token('%') || is_token('&'))
 	{
 		char op = token.kind;
 		next();
@@ -140,7 +140,7 @@ Expr *parse_expr1()
 Expr *parse_expr0()
 {
 	Expr *e = parse_expr1();
-	while (is_token('+') || is_token('-'))
+	while (is_token('+') || is_token('-') || is_token('|') || is_token('^'))
 	{
 		char op = token.kind;
 		next();
