@@ -132,16 +132,7 @@ Expr *parse_expr1()
 		char op = token.kind;
 		next();
 		Expr *er = parse_expr2();
-		if (op == '*')
-		{
-			// Mul
-			e = new_expr_op('*', e, er);
-		}
-		else if (op == '/')
-		{
-			// Div
-			e = new_expr_op('/', e, er);
-		}
+		e = new_expr_op(op, e, er);
 	}
 	return e;
 }
@@ -154,16 +145,7 @@ Expr *parse_expr0()
 		char op = token.kind;
 		next();
 		Expr *er = parse_expr1();
-		if (op == '+')
-		{
-			// Add
-			e = new_expr_op('+', e, er);
-		}
-		else if (op == '-')
-		{
-			// Minus
-			e = new_expr_op('-', e, er);
-		}
+		e = new_expr_op(op, e, er);
 	}
 	return e;
 }
@@ -179,9 +161,16 @@ void init_stream(char *source)
 	next();
 }
 
-int main(void)
+void test_sexpr(const char *source)
 {
-	init_stream("(12 * 34 + 45 / 56) + ~25");
+	init_stream(source);
 	buf_push(list, parse_expr());
 	dump_list();
+}
+
+int main(int argc, char **argv)
+{
+	if (argc < 2)
+		fatal("main: error");
+	test_sexpr(argv[1]);
 }
